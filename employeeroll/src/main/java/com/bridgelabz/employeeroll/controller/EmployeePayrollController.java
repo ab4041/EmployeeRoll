@@ -1,6 +1,7 @@
 package com.bridgelabz.employeeroll.controller;
 
 import com.bridgelabz.employeeroll.dto.EmployeePayrollDTO;
+import com.bridgelabz.employeeroll.dto.ResponseDTO;
 import com.bridgelabz.employeeroll.model.EmployeePayrollData;
 import com.bridgelabz.employeeroll.service.IEmployeePayrollService;
 
@@ -24,69 +25,91 @@ public class EmployeePayrollController {
 
     // Welcome API
     @GetMapping("/")
-    public String getMessage() {
+    public ResponseDTO getMessage() {
 
         log.info("Received request for welcome message");
 
-        return "Welcome to Employee Payroll App";
+        return new ResponseDTO(
+                "Welcome to Employee Payroll App",
+                null
+        );
     }
 
 
     // Get all employees
     @GetMapping("/get")
-    public List<EmployeePayrollData> getEmployeePayrollData() {
+    public ResponseDTO getEmployeePayrollData() {
 
-        log.info("Fetching all employee payroll data");
+        List<EmployeePayrollData> empList =
+                employeePayrollService.getEmployeePayrollData();
 
-        return employeePayrollService.getEmployeePayrollData();
+        return new ResponseDTO(
+                "Fetched all employee data successfully",
+                empList
+        );
     }
 
 
     // Get employee by ID
     @GetMapping("/get/{empId}")
-    public EmployeePayrollData getEmployeePayrollDataById(
+    public ResponseDTO getEmployeePayrollDataById(
             @PathVariable int empId) {
 
-        log.info("Fetching employee data for ID: {}", empId);
+        EmployeePayrollData empData =
+                employeePayrollService
+                        .getEmployeePayrollDataById(empId);
 
-        return employeePayrollService
-                .getEmployeePayrollDataById(empId);
+        return new ResponseDTO(
+                "Fetched employee successfully",
+                empData
+        );
     }
 
 
-    // Create employee (Validation enabled)
+    // Create employee
     @PostMapping("/create")
-    public EmployeePayrollData createEmployeePayrollData(
+    public ResponseDTO createEmployeePayrollData(
             @Valid @RequestBody EmployeePayrollDTO dto) {
 
-        log.info("Creating employee: {}", dto);
+        EmployeePayrollData empData =
+                employeePayrollService
+                        .createEmployeePayrollData(dto);
 
-        return employeePayrollService
-                .createEmployeePayrollData(dto);
+        return new ResponseDTO(
+                "Employee created successfully",
+                empData
+        );
     }
 
 
-    // Update employee (Validation enabled)
+    // Update employee
     @PutMapping("/update/{empId}")
-    public EmployeePayrollData updateEmployeePayrollData(
+    public ResponseDTO updateEmployeePayrollData(
             @PathVariable int empId,
             @Valid @RequestBody EmployeePayrollDTO dto) {
 
-        log.info("Updating employee ID: {}", empId);
+        EmployeePayrollData empData =
+                employeePayrollService
+                        .updateEmployeePayrollData(empId, dto);
 
-        return employeePayrollService
-                .updateEmployeePayrollData(empId, dto);
+        return new ResponseDTO(
+                "Employee updated successfully",
+                empData
+        );
     }
 
 
     // Delete employee
     @DeleteMapping("/delete/{empId}")
-    public void deleteEmployeePayrollData(
+    public ResponseDTO deleteEmployeePayrollData(
             @PathVariable int empId) {
-
-        log.info("Deleting employee ID: {}", empId);
 
         employeePayrollService
                 .deleteEmployeePayrollData(empId);
+
+        return new ResponseDTO(
+                "Employee deleted successfully",
+                "Deleted ID: " + empId
+        );
     }
 }
