@@ -1,16 +1,24 @@
 package com.bridgelabz.employeeroll.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.bridgelabz.employeeroll.dto.EmployeePayrollDTO;
+import com.bridgelabz.employeeroll.model.EmployeePayrollData;
+import com.bridgelabz.employeeroll.service.IEmployeePayrollService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/employeepayrollservice")
 public class EmployeePayrollController {
 
-    @GetMapping("/")
-    public String getMessage() {
-        return "Welcome to Employee Payroll App";
+    @Autowired
+    IEmployeePayrollService employeePayrollService;
+
+    @PostMapping("/create")
+    public EmployeePayrollData createEmployeePayrollData(
+            @RequestBody EmployeePayrollDTO dto) {
+
+        return employeePayrollService.createEmployeePayrollData(dto);
     }
 
 }
