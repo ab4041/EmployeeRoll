@@ -40,11 +40,13 @@ public class EmployeePayrollController {
     @GetMapping("/get")
     public ResponseDTO getEmployeePayrollData() {
 
+        log.info("Fetching all employees");
+
         List<EmployeePayrollData> empList =
                 employeePayrollService.getEmployeePayrollData();
 
         return new ResponseDTO(
-                "Fetched all employee data successfully",
+                "Fetched all employees successfully",
                 empList
         );
     }
@@ -53,14 +55,34 @@ public class EmployeePayrollController {
     // Get employee by ID
     @GetMapping("/get/{empId}")
     public ResponseDTO getEmployeePayrollDataById(
-            @PathVariable int empId) {
+            @PathVariable int empId
+    ) {
+
+        log.info("Fetching employee with ID {}", empId);
 
         EmployeePayrollData empData =
-                employeePayrollService
-                        .getEmployeePayrollDataById(empId);
+                employeePayrollService.getEmployeePayrollDataById(empId);
 
         return new ResponseDTO(
-                "Fetched employee successfully",
+                "Employee fetched successfully",
+                empData
+        );
+    }
+
+
+    // Get employee by name (UC11 feature)
+    @GetMapping("/find/{name}")
+    public ResponseDTO getEmployeePayrollDataByName(
+            @PathVariable String name
+    ) {
+
+        log.info("Fetching employee with name {}", name);
+
+        EmployeePayrollData empData =
+                employeePayrollService.getEmployeePayrollDataByName(name);
+
+        return new ResponseDTO(
+                "Employee fetched successfully",
                 empData
         );
     }
@@ -69,11 +91,13 @@ public class EmployeePayrollController {
     // Create employee
     @PostMapping("/create")
     public ResponseDTO createEmployeePayrollData(
-            @Valid @RequestBody EmployeePayrollDTO dto) {
+            @Valid @RequestBody EmployeePayrollDTO dto
+    ) {
+
+        log.info("Creating employee {}", dto);
 
         EmployeePayrollData empData =
-                employeePayrollService
-                        .createEmployeePayrollData(dto);
+                employeePayrollService.createEmployeePayrollData(dto);
 
         return new ResponseDTO(
                 "Employee created successfully",
@@ -86,11 +110,13 @@ public class EmployeePayrollController {
     @PutMapping("/update/{empId}")
     public ResponseDTO updateEmployeePayrollData(
             @PathVariable int empId,
-            @Valid @RequestBody EmployeePayrollDTO dto) {
+            @Valid @RequestBody EmployeePayrollDTO dto
+    ) {
+
+        log.info("Updating employee {}", empId);
 
         EmployeePayrollData empData =
-                employeePayrollService
-                        .updateEmployeePayrollData(empId, dto);
+                employeePayrollService.updateEmployeePayrollData(empId, dto);
 
         return new ResponseDTO(
                 "Employee updated successfully",
@@ -102,10 +128,12 @@ public class EmployeePayrollController {
     // Delete employee
     @DeleteMapping("/delete/{empId}")
     public ResponseDTO deleteEmployeePayrollData(
-            @PathVariable int empId) {
+            @PathVariable int empId
+    ) {
 
-        employeePayrollService
-                .deleteEmployeePayrollData(empId);
+        log.info("Deleting employee {}", empId);
+
+        employeePayrollService.deleteEmployeePayrollData(empId);
 
         return new ResponseDTO(
                 "Employee deleted successfully",

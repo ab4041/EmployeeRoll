@@ -17,6 +17,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     private EmployeePayrollRepository employeePayrollRepository;
 
 
+    // Get all employees
     @Override
     public List<EmployeePayrollData> getEmployeePayrollData() {
 
@@ -24,6 +25,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
+    // Get employee by ID
     @Override
     public EmployeePayrollData getEmployeePayrollDataById(int empId) {
 
@@ -36,6 +38,20 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
+    // Get employee by Name (UC11 feature)
+    @Override
+    public EmployeePayrollData getEmployeePayrollDataByName(String name) {
+
+        return employeePayrollRepository
+                .findByName(name)
+                .orElseThrow(() ->
+                        new EmployeePayrollException(
+                                "Employee not found with name: " + name
+                        ));
+    }
+
+
+    // Create employee
     @Override
     public EmployeePayrollData createEmployeePayrollData(
             EmployeePayrollDTO dto
@@ -51,6 +67,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
+    // Update employee
     @Override
     public EmployeePayrollData updateEmployeePayrollData(
             int empId,
@@ -67,6 +84,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
+    // Delete employee
     @Override
     public void deleteEmployeePayrollData(int empId) {
 
