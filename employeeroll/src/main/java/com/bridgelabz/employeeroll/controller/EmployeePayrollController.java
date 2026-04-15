@@ -4,6 +4,8 @@ import com.bridgelabz.employeeroll.dto.EmployeePayrollDTO;
 import com.bridgelabz.employeeroll.model.EmployeePayrollData;
 import com.bridgelabz.employeeroll.service.IEmployeePayrollService;
 
+import jakarta.validation.Valid;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class EmployeePayrollController {
     private IEmployeePayrollService employeePayrollService;
 
 
+    // Welcome API
     @GetMapping("/")
     public String getMessage() {
 
@@ -29,6 +32,7 @@ public class EmployeePayrollController {
     }
 
 
+    // Get all employees
     @GetMapping("/get")
     public List<EmployeePayrollData> getEmployeePayrollData() {
 
@@ -38,6 +42,7 @@ public class EmployeePayrollController {
     }
 
 
+    // Get employee by ID
     @GetMapping("/get/{empId}")
     public EmployeePayrollData getEmployeePayrollDataById(
             @PathVariable int empId) {
@@ -49,9 +54,10 @@ public class EmployeePayrollController {
     }
 
 
+    // Create employee (Validation enabled)
     @PostMapping("/create")
     public EmployeePayrollData createEmployeePayrollData(
-            @RequestBody EmployeePayrollDTO dto) {
+            @Valid @RequestBody EmployeePayrollDTO dto) {
 
         log.info("Creating employee: {}", dto);
 
@@ -60,10 +66,11 @@ public class EmployeePayrollController {
     }
 
 
+    // Update employee (Validation enabled)
     @PutMapping("/update/{empId}")
     public EmployeePayrollData updateEmployeePayrollData(
             @PathVariable int empId,
-            @RequestBody EmployeePayrollDTO dto) {
+            @Valid @RequestBody EmployeePayrollDTO dto) {
 
         log.info("Updating employee ID: {}", empId);
 
@@ -72,6 +79,7 @@ public class EmployeePayrollController {
     }
 
 
+    // Delete employee
     @DeleteMapping("/delete/{empId}")
     public void deleteEmployeePayrollData(
             @PathVariable int empId) {
