@@ -55,8 +55,7 @@ public class EmployeePayrollController {
     // Get employee by ID
     @GetMapping("/get/{empId}")
     public ResponseDTO getEmployeePayrollDataById(
-            @PathVariable int empId
-    ) {
+            @PathVariable int empId) {
 
         log.info("Fetching employee with ID {}", empId);
 
@@ -70,11 +69,10 @@ public class EmployeePayrollController {
     }
 
 
-    // Get employee by name (UC11 feature)
+    // Get employee by name (UC11)
     @GetMapping("/find/{name}")
     public ResponseDTO getEmployeePayrollDataByName(
-            @PathVariable String name
-    ) {
+            @PathVariable String name) {
 
         log.info("Fetching employee with name {}", name);
 
@@ -88,11 +86,28 @@ public class EmployeePayrollController {
     }
 
 
+    // UC12 salary query endpoint
+    @GetMapping("/salary/{amount}")
+    public ResponseDTO getEmployeesWithSalaryGreaterThan(
+            @PathVariable double amount) {
+
+        log.info("Fetching employees with salary greater than {}", amount);
+
+        List<EmployeePayrollData> empList =
+                employeePayrollService
+                        .getEmployeesWithSalaryGreaterThan(amount);
+
+        return new ResponseDTO(
+                "Employees fetched successfully",
+                empList
+        );
+    }
+
+
     // Create employee
     @PostMapping("/create")
     public ResponseDTO createEmployeePayrollData(
-            @Valid @RequestBody EmployeePayrollDTO dto
-    ) {
+            @Valid @RequestBody EmployeePayrollDTO dto) {
 
         log.info("Creating employee {}", dto);
 
@@ -110,13 +125,13 @@ public class EmployeePayrollController {
     @PutMapping("/update/{empId}")
     public ResponseDTO updateEmployeePayrollData(
             @PathVariable int empId,
-            @Valid @RequestBody EmployeePayrollDTO dto
-    ) {
+            @Valid @RequestBody EmployeePayrollDTO dto) {
 
         log.info("Updating employee {}", empId);
 
         EmployeePayrollData empData =
-                employeePayrollService.updateEmployeePayrollData(empId, dto);
+                employeePayrollService
+                        .updateEmployeePayrollData(empId, dto);
 
         return new ResponseDTO(
                 "Employee updated successfully",
@@ -128,8 +143,7 @@ public class EmployeePayrollController {
     // Delete employee
     @DeleteMapping("/delete/{empId}")
     public ResponseDTO deleteEmployeePayrollData(
-            @PathVariable int empId
-    ) {
+            @PathVariable int empId) {
 
         log.info("Deleting employee {}", empId);
 

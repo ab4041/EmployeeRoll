@@ -13,6 +13,8 @@ public interface IEmployeePayrollService {
 
     EmployeePayrollData getEmployeePayrollDataByName(String name);
 
+    List<EmployeePayrollData> getEmployeesWithSalaryGreaterThan(double salary);
+
     EmployeePayrollData createEmployeePayrollData(EmployeePayrollDTO dto);
 
     EmployeePayrollData updateEmployeePayrollData(int empId,

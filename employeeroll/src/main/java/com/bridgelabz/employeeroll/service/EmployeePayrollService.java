@@ -38,7 +38,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
-    // Get employee by Name (UC11 feature)
+    // Get employee by name (UC11)
     @Override
     public EmployeePayrollData getEmployeePayrollDataByName(String name) {
 
@@ -51,11 +51,20 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     }
 
 
+    // UC12 custom JPQL query
+    @Override
+    public List<EmployeePayrollData> getEmployeesWithSalaryGreaterThan(
+            double salary) {
+
+        return employeePayrollRepository
+                .findEmployeesWithSalaryGreaterThan(salary);
+    }
+
+
     // Create employee
     @Override
     public EmployeePayrollData createEmployeePayrollData(
-            EmployeePayrollDTO dto
-    ) {
+            EmployeePayrollDTO dto) {
 
         EmployeePayrollData empData =
                 new EmployeePayrollData(
@@ -71,8 +80,7 @@ public class EmployeePayrollService implements IEmployeePayrollService {
     @Override
     public EmployeePayrollData updateEmployeePayrollData(
             int empId,
-            EmployeePayrollDTO dto
-    ) {
+            EmployeePayrollDTO dto) {
 
         EmployeePayrollData empData =
                 this.getEmployeePayrollDataById(empId);
